@@ -24,7 +24,7 @@ At a minimum, the transactional data you import should have the following:
 | 769      | 13249   | 09/13/2020 | $240.00        |
 | 770      | 11424   | 09/13/2020 | $194.34        |
 
-*Is your transactional data in another kind of format? See the `create_transaction_log` function below*
+*Is your transactional data in another kind of format? See the `create_transaction_log` function below.*
 
 ## Usage
 
