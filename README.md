@@ -12,15 +12,19 @@ pip install transactions
 ## Transactional Data 
 At a minimum, the transactional data you import should have the following: 
 
+* OrderID assoiated with transaction
+* Unique user id associated with transaction
 * Date of transaction
 * Monetary value of transaction
-* Unique user id associated with transaction
+
 
 | order_id | user_id | date       | monetary_value |
 |----------|---------|------------|----------------|
 | 768      | 13      | 09/13/2020 | $15.12        |
 | 769      | 13249   | 09/13/2020 | $240.00        |
 | 770      | 11424   | 09/13/2020 | $194.34        |
+
+*Is your transactional data in another kind of format? See the `create_transaction_log` function below*
 
 ## Usage
 
