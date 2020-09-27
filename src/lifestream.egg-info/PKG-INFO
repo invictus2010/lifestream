@@ -2,7 +2,7 @@ Metadata-Version: 2.1
 Name: lifestream
 Version: 0.0.3
 Summary: The fastest way to make sense of a transaction log.
-Home-page: https://github.com/invictus2010/transactions
+Home-page: https://github.com/invictus2010/lifestream
 Author: Jeff Withington
 Author-email: jeffrey.withington@gmail.com
 License: UNKNOWN
