@@ -4,10 +4,10 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name = 'transactions',
+    name = 'lifestream',
     version = '0.0.1',
     description = 'The fastest way to make sense of a transaction log.',
-    py_modules = ["transactions"],
+    py_modules = ["lifestream"],
     package_dir = {'': 'src'},
     install_requires = [
         'pandas',

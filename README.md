@@ -1,13 +1,13 @@
 # Transactions
 
-Transcations is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
+Lifestream is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
 
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```bash
-pip install transactions
+pip install lifestream
 ```
 ## Transactional Data 
 At a minimum, the transactional data you import should have the following: 
@@ -29,9 +29,9 @@ At a minimum, the transactional data you import should have the following:
 ## Usage
 Want to plot sales by month?
 ```python
-import transactions
+import lifestream
 
-transactions.sales_chart(transaction_log, date_col, monetary_val, user_id)
+lifestream.sales_chart(transaction_log, date_col, monetary_val, user_id)
 ```
 * **transaction_log** is a dataframe of your transactional data.
 * **date_col** represents the column of the transaction_log dataframe which contains the datetime of the transaction.
@@ -41,7 +41,7 @@ transactions.sales_chart(transaction_log, date_col, monetary_val, user_id)
 Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
 ```python
 
-transactions.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
+lifestream.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
 ```
 * **df** is a dataframe of your transactional data.
 * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
@@ -52,7 +52,7 @@ transactions.cohort_retention_chart(df, date_col, order_id, user_id, monetary_va
 Need to create a transaction log that meets the library's requirements? If your data is as raw as the individually purchased items, try this method.
 ```python
 
-transactions.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
+lifestream.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
 ```
 * **df** is a dataframe of your  data.
 * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
