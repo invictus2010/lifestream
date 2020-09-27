@@ -36,19 +36,7 @@ def sales_chart(transaction_log, date_col, monetary_val, user_id):
   for n, label in enumerate(ax.xaxis.get_ticklabels()):
       if n % every_nth != 0:
           label.set_visible(False)
-
-def create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid):
-    grouped = df.groupby(['InvoiceNo', 'InvoiceDate','CustomerID'])
-    transaction_log = grouped.agg({
-    'OrderValue': np.sum
-    })
-    transaction_log.rename(columns ={
-    'OrderValue': 'monetary_val'
-    }, inplace=True)
-    transaction_log.reset_index(inplace = True)
-    transaction_log['InvoiceDate'] = transaction_log['InvoiceDate'].astype('datetime64[ns]') 
-    return transaction_log
-
+          
 def cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3):
      # Define a monthly order period
     df['OrderPeriod'] = df[date_col].apply(lambda x: x.strftime('%Y-%m'))

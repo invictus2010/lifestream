@@ -3,8 +3,6 @@ LICENSE.txt
 README.md
 setup.py
 dist/lifestream-0.0.1.tar.gz
-dist/transactions-0.0.1-py3-none-any.whl
-dist/transactions-0.0.1.tar.gz
 src/lifestream.py
 src/lifestream.egg-info/PKG-INFO
 src/lifestream.egg-info/SOURCES.txt
