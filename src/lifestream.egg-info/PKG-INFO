@@ -8,21 +8,23 @@ Author-email: jeffrey.withington@gmail.com
 License: UNKNOWN
 Description: # Transactions
         
-        Transcations is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
+        Lifestream is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
         
         ## Installation
         
         Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
         
         ```bash
-        pip install transactions
+        pip install lifestream
         ```
         ## Transactional Data 
         At a minimum, the transactional data you import should have the following: 
         
+        * OrderID assoiated with transaction
+        * Unique user id associated with transaction
         * Date of transaction
         * Monetary value of transaction
-        * Unique user id associated with transaction
+        
         
         | order_id | user_id | date       | monetary_value |
         |----------|---------|------------|----------------|
@@ -30,17 +32,42 @@ Description: # Transactions
         | 769      | 13249   | 09/13/2020 | $240.00        |
         | 770      | 11424   | 09/13/2020 | $194.34        |
         
+        *Is your transactional data in another kind of format? See the `create_transaction_log` function below.*
+        
         ## Usage
-        
+        Want to plot sales by month?
         ```python
-        import transactions
+        import lifestream
         
-        transactions.sales_chart(transaction_log, date_col, monetary_val, user_id)
-        # transaction_log is a dataframe of your transactional data.
-        # date_col represents the column of the transaction_log dataframe which contains the datetime of the transaction.
-        # monetary_val represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
-        # user_id represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
+        lifestream.sales_chart(transaction_log, date_col, monetary_val, user_id)
         ```
+        * **transaction_log** is a dataframe of your transactional data.
+        * **date_col** represents the column of the transaction_log dataframe which contains the datetime of the transaction.
+        * **monetary_val** represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
+        * **user_id** represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
+        
+        Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
+        ```python
+        
+        lifestream.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
+        ```
+        * **df** is a dataframe of your transactional data.
+        * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
+        * **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+        * **monetary_val** represents the column of the dataframe which contains the monetary value of the transaction. 
+        * **cohort1**, **cohort2**, **cohort3** are the three cohorts you are interested in, expressed as 'YYYY-MM' string.
+        
+        Need to create a transaction log that meets the library's requirements? If your data is as raw as the individually purchased items, try this method.
+        ```python
+        
+        lifestream.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
+        ```
+        * **df** is a dataframe of your  data.
+        * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
+        * **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+        * **quantity** represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
+        * **unitprice** represents the column of the dataframe which contains the price of an item purchased in the transaction
+        * **customerid** is the unique id associated with the customer making the purchase.
         
         ## Contributing
         Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -49,5 +76,14 @@ Description: # Transactions
         
         ## License
         [MIT](https://choosealicense.com/licenses/mit/)
+        
 Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Office/Business :: Financial
+Classifier: Topic :: Internet :: Log Analysis
 Description-Content-Type: text/markdown
