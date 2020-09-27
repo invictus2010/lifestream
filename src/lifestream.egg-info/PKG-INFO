@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: lifestream
-Version: 0.0.2
+Version: 0.0.3
 Summary: The fastest way to make sense of a transaction log.
 Home-page: https://github.com/invictus2010/transactions
 Author: Jeff Withington
 Author-email: jeffrey.withington@gmail.com
 License: UNKNOWN
-Description: # Transactions
+Description: # Lifestream
         
         Lifestream is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
         
