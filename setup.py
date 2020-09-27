@@ -29,5 +29,5 @@ setup(
     long_description_content_type = "text/markdown",
     author = 'Jeff Withington',
     author_email = 'jeffrey.withington@gmail.com',
-    url = 'https://github.com/invictus2010/transactions'
+    url = 'https://github.com/invictus2010/lifestream'
 ) 
