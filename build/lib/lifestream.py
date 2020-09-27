@@ -8,7 +8,7 @@ import matplotlib.ticker as mtick
 
 def create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid):
     df['OrderValue'] = df[quantity] * df[unitprice]
-    grouped = df.groupby(['InvoiceNo', 'InvoiceDate','CustomerID','OrderValue'])
+    grouped = df.groupby(['InvoiceNo', 'InvoiceDate','CustomerID'])
     transaction_log = grouped.agg({
     'OrderValue': np.sum
     })
