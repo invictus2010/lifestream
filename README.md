@@ -1,4 +1,4 @@
-# Transactions
+# Lifestream
 
 Lifestream is a Python library to make sense out of your transaction logs. Import a log of your transactional data and let's explore! 
 
