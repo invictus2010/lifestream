@@ -32,34 +32,35 @@ Want to plot sales by month?
 import transactions
 
 transactions.sales_chart(transaction_log, date_col, monetary_val, user_id)
-# transaction_log is a dataframe of your transactional data.
-# date_col represents the column of the transaction_log dataframe which contains the datetime of the transaction.
-# monetary_val represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
-# user_id represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
 ```
+* **transaction_log** is a dataframe of your transactional data.
+* **date_col** represents the column of the transaction_log dataframe which contains the datetime of the transaction.
+* **monetary_val** represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
+* **user_id** represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
+
 Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
 ```python
 
 transactions.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
-# df is a dataframe of your transactional data.
-# date_col represents the column of the dataframe which contains the datetime of the transaction.
-# user_id represents the column of the dataframe which contains the unique user id associated with the transaction. 
-# monetary_val represents the column of the dataframe which contains the monetary value of the transaction. 
-# cohort1, cohort2, cohort3 are the three cohorts you are interested in, expressed as 'YYYY-MM' string.
-
 ```
+* **df** is a dataframe of your transactional data.
+* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **monetary_val** represents the column of the dataframe which contains the monetary value of the transaction. 
+* **cohort1**, **cohort2**, **cohort3** are the three cohorts you are interested in, expressed as 'YYYY-MM' string.
+
 Need to create a transaction log that meets the library's requirements? If your data is as raw as the individually purchased items, try this method.
 ```python
 
 transactions.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
-# df is a dataframe of your  data.
-# date_col represents the column of the dataframe which contains the datetime of the transaction.
-# user_id represents the column of the dataframe which contains the unique user id associated with the transaction. 
-# quantity represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
-# unitprice represents the column of the dataframe which contains the price of an item purchased in the transaction
-# customerid is the unique id associated with the customer making the purchase.
-
 ```
+* **df** is a dataframe of your  data.
+* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **quantity** represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
+* **unitprice** represents the column of the dataframe which contains the price of an item purchased in the transaction
+* **customerid** is the unique id associated with the customer making the purchase.
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
