@@ -27,6 +27,20 @@ At a minimum, the transactional data you import should have the following:
 *Is your transactional data in another kind of format? See the `create_transaction_log` function below.*
 
 ## Usage
+Need to create a transaction log that meets the library's requirements? If your data is as raw as the individually purchased items, try this method.
+
+```python
+
+lifestream.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
+```
+* **df** is a dataframe of your  data.
+* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **quantity** represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
+* **unitprice** represents the column of the dataframe which contains the price of an item purchased in the transaction
+* **customerid** is the unique id associated with the customer making the purchase.
+
+
 Want to plot sales by month?
 ```python
 import lifestream
@@ -49,17 +63,15 @@ lifestream.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val,
 * **monetary_val** represents the column of the dataframe which contains the monetary value of the transaction. 
 * **cohort1**, **cohort2**, **cohort3** are the three cohorts you are interested in, expressed as 'YYYY-MM' string.
 
-Need to create a transaction log that meets the library's requirements? If your data is as raw as the individually purchased items, try this method.
+Plot how many new users you are acquiring per month.
+
 ```python
 
-lifestream.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
+lifestream.new_customers_chart(df, date_col, user_id)
 ```
-* **df** is a dataframe of your  data.
+* **df** is a dataframe of your transactional data.
 * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
 * **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
-* **quantity** represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
-* **unitprice** represents the column of the dataframe which contains the price of an item purchased in the transaction
-* **customerid** is the unique id associated with the customer making the purchase.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
