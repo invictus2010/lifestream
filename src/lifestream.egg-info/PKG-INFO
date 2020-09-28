@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lifestream
-Version: 0.0.6
+Version: 0.0.7
 Summary: The fastest way to make sense of a transaction log.
 Home-page: https://github.com/invictus2010/lifestream
 Author: Jeff Withington
@@ -63,7 +63,7 @@ Description: # Lifestream
         Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
         ```python
         
-        lifestream.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
+        lifestream.cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2, cohort3)
         ```
         * **df** is a dataframe of your transactional data.
         * **date_col** represents the column of the dataframe which contains the datetime of the transaction.

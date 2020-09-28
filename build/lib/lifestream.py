@@ -70,8 +70,8 @@ def new_customers_chart(df, date_col, user_id):
     plt.title('New Buyers by Month')
     plt.ylabel('Number of New Buyers')
     plt.xlabel('Month of First Purchase')
-    
-def cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3):
+
+def cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2, cohort3):
      # Define a monthly order period
     df['OrderPeriod'] = df[date_col].apply(lambda x: x.strftime('%Y-%m'))
     df.set_index(user_id, inplace=True)
@@ -83,10 +83,9 @@ def cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort
     # Aggregate data based on cohort and monthly order period
     grouped = df.groupby(['CohortGroup', 'OrderPeriod'])
     cohorts = grouped.agg({user_id: pd.Series.nunique,
-                       order_id: pd.Series.nunique,
                        monetary_val: np.sum})
-    cohorts.rename(columns={user_id: 'TotalUsers',
-                        order_id: 'TotalOrders'}, inplace=True)
+    cohorts.rename(columns={user_id: 'TotalUsers'
+                        }, inplace=True)
 
     # Create a cohort period column, which reflects number of months on site. Month of first purchase = 1
     def cohort_period(df):

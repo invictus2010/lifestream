@@ -55,7 +55,7 @@ lifestream.sales_chart(transaction_log, date_col, monetary_val, user_id)
 Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
 ```python
 
-lifestream.cohort_retention_chart(df, date_col, order_id, user_id, monetary_val, cohort1, cohort2, cohort3)
+lifestream.cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2, cohort3)
 ```
 * **df** is a dataframe of your transactional data.
 * **date_col** represents the column of the dataframe which contains the datetime of the transaction.
