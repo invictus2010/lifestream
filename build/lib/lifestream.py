@@ -49,28 +49,7 @@ def sales_chart(transaction_log, date_col, monetary_val, user_id):
   for n, label in enumerate(ax.xaxis.get_ticklabels()):
       if n % every_nth != 0:
           label.set_visible(False)
-
-def new_customers_chart(df, date_col, user_id):
-    df['OrderPeriod'] = df[date_col].apply(lambda x: x.strftime('%Y-%m'))
-    df.set_index(user_id, inplace = True)
-    df['CohortGroup'] = df.groupby(level=0)[date_col].min().apply(lambda x: x.strftime('%Y-%m'))
-    df.reset_index(inplace = True)
-    grouped = df.groupby(['CohortGroup'])
-    cohorts = grouped.agg({user_id: pd.Series.nunique,
-                       })
-    cohorts.rename(columns={user_id: 'TotalUsers'}, inplace=True)
-    def cohort_period(df):
-        df['CohortPeriod'] = np.arange(len(df)) + 1
-        return df
-    cohorts = cohorts.groupby(level=0).apply(cohort_period)
-    cohorts.reset_index(inplace=True)
-    cohorts.set_index(['CohortGroup', 'CohortPeriod'], inplace=True)
-    cohort_group_size = cohorts['TotalUsers'].groupby(level=0).first()
-    cohort_group_size.plot(kind = 'bar', figsize=(10,5))
-    plt.title('New Buyers by Month')
-    plt.ylabel('Number of New Buyers')
-    plt.xlabel('Month of First Purchase')
-
+          
 def cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2, cohort3):
      # Define a monthly order period
     df['OrderPeriod'] = df[date_col].apply(lambda x: x.strftime('%Y-%m'))
@@ -109,3 +88,25 @@ def cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2
     plt.xticks(np.arange(1, 12.1, 1))
     plt.xlim(1, 12)
     plt.ylabel('% of Cohort Purchasing')
+
+def new_customers_chart(df, date_col, user_id):
+    df['OrderPeriod'] = df[date_col].apply(lambda x: x.strftime('%Y-%m'))
+    df.set_index(user_id, inplace = True)
+    df['CohortGroup'] = df.groupby(level=0)[date_col].min().apply(lambda x: x.strftime('%Y-%m'))
+    df.reset_index(inplace = True)
+    grouped = df.groupby(['CohortGroup'])
+    cohorts = grouped.agg({user_id: pd.Series.nunique,
+                       })
+    cohorts.rename(columns={user_id: 'TotalUsers'}, inplace=True)
+    def cohort_period(df):
+        df['CohortPeriod'] = np.arange(len(df)) + 1
+        return df
+    cohorts = cohorts.groupby(level=0).apply(cohort_period)
+    cohorts.reset_index(inplace=True)
+    cohorts.set_index(['CohortGroup', 'CohortPeriod'], inplace=True)
+    cohort_group_size = cohorts['TotalUsers'].groupby(level=0).first()
+    cohort_group_size.plot(kind = 'bar', figsize=(10,5))
+    plt.title('New Buyers by Month')
+    plt.ylabel('Number of New Buyers')
+    plt.xlabel('Month of First Purchase')
+
