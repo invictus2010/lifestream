@@ -31,52 +31,59 @@ Need to create a transaction log that meets the library's requirements? If your 
 
 ```python
 
-lifestream.create_transaction_log(df, invoicenum, date_col, quantity, unitprice, customerid)
+lifestream.create_transaction_log(df, orderid_col, datetime_col customerid_col, quantity_col, 
+unitprice_col)
 ```
 * **df** is a dataframe of your  data.
-* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
-* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
-* **quantity** represents the column of the dataframe which contains the quantity of an item purchased in the transaction.
-* **unitprice** represents the column of the dataframe which contains the price of an item purchased in the transaction
-* **customerid** is the unique id associated with the customer making the purchase.
+* **orderid_col** the column in df DataFrame that denotes the unique order_id.
+* **datetime_col** the column in df DataFrame that denotes the datetime the purchase was made.
+* **customerid_col** the column in df DataFrame that denotes the unique customer_id.
+* **quantity_col** the column in df DataFrame that denotes the quantity of items purchased in an order.
+* **unitprice_col** the column in df DataFrame that denotes the unit price of items purchased in an order.
 
 
 Want to plot sales by month?
 ```python
 import lifestream
 
-lifestream.sales_chart(transaction_log, date_col, monetary_val, user_id)
+lifestream.sales_chart(transaction_log, datetime_col, ordervalue_col, customerid_col, title, ylabel)
 ```
 * **transaction_log** is a dataframe of your transactional data.
-* **date_col** represents the column of the transaction_log dataframe which contains the datetime of the transaction.
-* **monetary_val** represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
-* **user_id** represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
+* **datetime_col** represents the column of the transaction_log dataframe which contains the datetime of the transaction.
+* **orderid_col** represents the column of the transaction_log dataframe which contains the monetary value of the transaction. 
+* **customerid_col** represents the column of the transaction_log dataframe which contains the unique user id associated with the transaction. 
+* **title** *optional* represents the title of the chart.
+* **ylabel** *optional* represents the label on the y-axis of the chart.
 
 Want to dig into basic cohort analyses? Plot how many users from a cohort are still spending in subsequent months.
 ```python
 
-lifestream.cohort_retention_chart(df, date_col, user_id, monetary_val, cohort1, cohort2, cohort3)
+lifestream.cohort_retention_chart(transaction_log, datetime_col, customerid_col, ordervalue_col, cohort1, cohort2, cohort3, title, ylabel)
 ```
-* **df** is a dataframe of your transactional data.
-* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
-* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
-* **monetary_val** represents the column of the dataframe which contains the monetary value of the transaction. 
+* **transaction_log** is a dataframe of your transactional data.
+* **datetime_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **customerid_col** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **ordervalue_col** represents the column of the dataframe which contains the monetary value of the transaction. 
 * **cohort1**, **cohort2**, **cohort3** are the three cohorts you are interested in, expressed as 'YYYY-MM' string.
+* **title** *optional* is the title for the plot.
+* **ylabel** *optional* is the label for the y-axis of the plot.
 
 Plot how many new users you are acquiring per month.
 
 ```python
 
-lifestream.new_customers_chart(df, date_col, user_id)
+lifestream.new_customers_chart(transaction_log, datetime_col, customerid_col, title, xlabel, ylabel, kind)
 ```
-* **df** is a dataframe of your transactional data.
-* **date_col** represents the column of the dataframe which contains the datetime of the transaction.
-* **user_id** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **transaction_log** is a dataframe of your transactional data.
+* **datetime_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **customerid_col** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **title** *optional* represents the title of the chart.
+* **xlabel** *optional* represents the x-axis of the chart.
+* **ylabel** *optional* represents the y-axis of the chart.
+* **kind** *optional* represents the kind of chart. see the pandas library documentation for the plot method to understand what is available.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
