@@ -112,9 +112,7 @@ def sales_chart(
     for n, label in enumerate(ax.xaxis.get_ticklabels()):
         if n % every_nth != 0:
             label.set_visible(False)
-
-# Cohort retention chart where users can select which cohorts they want in 'YYYY-MM' format. In the future,
-# make number of cohorts optional.          
+    
 def cohort_retention_chart(
     transaction_log, 
     datetime_col,  
