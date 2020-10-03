@@ -82,6 +82,20 @@ lifestream.new_customers_chart(transaction_log, datetime_col, customerid_col, ti
 * **ylabel** *optional* represents the y-axis of the chart.
 * **kind** *optional* represents the kind of chart. see the pandas library documentation for the plot method to understand what is available.
 
+Plot the monthly revenue mix by new vs. returning customers. 
+
+```python
+
+lifestream.customer_type_revenue_mix(transaction_log, datetime_col, customerid_col, ordervalue_col, figsize = (12,8), rotation = 'vertical'
+)
+```
+* **transaction_log** is a dataframe of your transactional data.
+* **datetime_col** represents the column of the dataframe which contains the datetime of the transaction.
+* **customerid_col** represents the column of the dataframe which contains the unique user id associated with the transaction. 
+* **ordervalue_col** represents the column of the dataframe which contains the monetary value of the transaction. 
+* **figsize** *optional* represents the size of the chart.
+* **rotation** *optional* represents the rotation of the x-axis tick marks on the chart.
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

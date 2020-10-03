@@ -242,3 +242,94 @@ def new_customers_chart(
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
 
+def customer_type_revenue_mix(
+    transaction_log,
+    datetime_col,
+    customerid_col,
+    ordervalue_col,
+    figsize = (12,8),
+    rotation = 'vertical'
+):
+    """
+    Creates a stacked bar chart of percent of revenue by buyer type per month.
+    Note: only a new buyer's first purchase counts towards new buyer revenue. If
+    the customer repeats in the same month, subsequent transactions are counted as repeat buyer 
+    revenue 
+    
+    Parameters
+    ----------
+    transaction_log: :obj: DataFrame
+        a Pandas DataFrame that contains your transaction log.
+    datetime_col: string
+        the column in transaction_log DataFrame that denotes the datetime of an order.
+    customerid_col: string
+        the column in transaction_log DataFrame that contains the unique customer_id.
+    ordervalue_col: string 
+        the column in transaction_log DataFrame that contains the total value of an order.
+    figsize: tuple, optional
+        the size of the chart.
+    rotation: string, optional
+        rotation for x-axis tick marks; may be 'horizontal' or 'vertical'
+    -------
+    axes: matplotlib.AxesSubplot
+    """
+    # Identify a buyer's first transaction
+    transaction_log.sort_values(datetime_col)
+    transaction_log['NewBuyer'] = (~transaction_log[customerid_col].duplicated()).astype(int)
+
+    #Create an Initial Buyer DataFrame and Repeat Buyer DataFrame
+    nb = transaction_log.loc[transaction_log['NewBuyer'] == 1]
+    ob = transaction_log.loc[transaction_log['NewBuyer'] == 0]
+
+    #Format New/Repeat Buyer DataFrames correctly
+    nb[datetime_col] = nb[datetime_col].astype('datetime64[ns]') # This line causes a SettingWithCopyWarning
+    nb['OrderPeriod'] = nb[datetime_col].apply(lambda x: x.strftime('%Y-%m')) # This line causes a SettingWithCopyWarning
+    nb.set_index(customerid_col, inplace=True)
+    grouped = nb.groupby(['OrderPeriod'])
+    cohorts = grouped.agg({ordervalue_col:np.sum,
+                       })
+    cohorts.rename(columns={ordervalue_col: 'TotalOrderValue'}, inplace=True)
+
+    ob[datetime_col] = ob[datetime_col].astype('datetime64[ns]') # This line causes a SettingWithCopyWarning
+    ob['OrderPeriod'] = ob[datetime_col].apply(lambda x: x.strftime('%Y-%m')) # This line causes a SettingWithCopyWarning
+    ob.set_index(customerid_col, inplace=True)
+    ob.head()
+    grouped2 = ob.groupby(['OrderPeriod'])
+    cohorts2 = grouped2.agg({ordervalue_col:np.sum,
+                        })
+    cohorts2.rename(columns={ordervalue_col: 'TotalOrderValue'}, inplace=True)
+
+    # Format Axis Data for Plot
+    cohorts.reset_index(inplace = True)
+    cohorts.set_index('OrderPeriod', inplace=True)
+    months = cohorts.index.to_numpy()
+    r = []
+    i = -1
+    for x in months:
+        i+=1
+        r.append(i)
+    
+    # Get Data for Plot
+    raw_data = {'InitialBuyers': cohorts['TotalOrderValue'], 'RepeatBuyers': cohorts2['TotalOrderValue']}
+    df = pd.DataFrame(raw_data)
+
+    # Get Totals
+    totals = [i+j for i,j in zip(df['InitialBuyers'], df['RepeatBuyers'])]
+    greenBars = [i / j * 100 for i,j in zip(df['InitialBuyers'], totals)]
+    orangeBars = [i / j * 100 for i,j in zip(df['RepeatBuyers'], totals)]
+
+    # Plot Dimensions
+    barWidth = 0.85
+    plt.rcParams["figure.figsize"] = figsize
+    
+    # Create Initial Buyer Bars
+    plt.bar(r, greenBars, color='#08A05C', edgecolor='white', width=barWidth, label = 'New Buyers')
+    
+    # Create Repeat Buyer Bars
+    plt.bar(r, orangeBars, bottom=greenBars, color='#f9bc86', edgecolor='white', width=barWidth, label = 'Repeat Buyers')
+    
+    # Labels and Legend
+    plt.xticks(r, months, rotation=rotation)
+    plt.ylabel('Percent of Monthly Revenue')
+    plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+    plt.show()
