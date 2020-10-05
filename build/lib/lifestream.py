@@ -5,6 +5,10 @@ import numpy as np
 from matplotlib.pyplot import figure
 from datetime import datetime
 import matplotlib.ticker as mtick
+import plotly.express as px
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 def create_transaction_log(
     df, 
@@ -56,12 +60,14 @@ def create_transaction_log(
     return transaction_log
 
 def sales_chart(
-    transaction_log, 
-    datetime_col, 
-    ordervalue_col, 
+    transaction_log,
+    datetime_col,
     customerid_col,
-    title = 'Sales Over Time',
-    ylabel = 'Sales ($)'
+    ordervalue_col,
+    customer_count = True,
+    title = 'Sales and Customers Per Month',
+    ylabel1 = 'Number of Customers Per Month',
+    ylabel2 = 'Sales ($) per Month'
 ):
     """
     Creates a bar chart of monthly revenue. 
@@ -76,10 +82,15 @@ def sales_chart(
         the column in transaction_log DataFrame that contains the total value of an order.
     customerid_col: string
         the column in transaction_log DataFrame that contains the unique customer_id.
+    customer_count: boolean, optional
+        boolean to select whether or not to plot number of customers per month on same plot.
     title: string, optional
-        the plot's title.
-    ylabel: string, optional
-        the label for the y-axis of the plot.
+        the plot's title. recommend changing if customer_count is False.
+    ylabel1: string, optional
+        the label for the line trace of the number of customers per month.
+    ylabel2: string, optional
+        the label for the bar plot of the revenue per month.
+    
     -------
     axes: matplotlib.AxesSubplot
     """
@@ -92,29 +103,39 @@ def sales_chart(
     # chart in the futre
     df = transaction_log.groupby(pd.Grouper(freq="M"))[ordervalue_col, customerid_col].agg({ordervalue_col: 'sum', 
     customerid_col: 'count'})
-    
-    # Plot
-    ax = plt.subplot()
-    plt.gcf().autofmt_xdate()
-    height = df[ordervalue_col]
-    bars = df.index
-    bars = bars.strftime("%b-%Y")
-    y_pos = np.arange(len(bars))
-    fmt = '${x:,.0f}'
-    tick = mtick.StrMethodFormatter(fmt)
-    ax.yaxis.set_major_formatter(tick)
-    ax.set_xlabel('Month')
-    ax.set_ylabel(ylabel)
-    ax.set_title(title)
-    plt.xticks(y_pos, bars)
-    plt.bar(y_pos, height)
-    every_nth = 3 
-    for n, label in enumerate(ax.xaxis.get_ticklabels()):
-        if n % every_nth != 0:
-            label.set_visible(False)
 
-# Cohort retention chart where users can select which cohorts they want in 'YYYY-MM' format. In the future,
-# make number of cohorts optional.          
+    # Plotting a dual axist chart depending on the user's preference, else
+    # plot revenue/sales per month.
+    if customer_count = True:
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        fig.add_trace(
+        go.Scatter(
+            x= df.index,
+            y= df[customerid_col].values,
+            name= ylabel1
+        ),
+        secondary_y = True)
+        fig.add_trace(
+        go.Bar(
+            x= df.index,
+            y= df[ordervalue_col].values,
+            name= ylabel2
+        ),
+        secondary_y = False)
+
+        fig.update_layout(yaxis = dict(tickformat='$,'), yaxis2 = dict(tickformat = ',', rangemode = 'tozero'), title_text=title)
+        fig.update_yaxes(title_text=ylabel1, secondary_y=True)
+        fig.update_yaxes(title_text=ylabel2, secondary_y=False)
+        fig.show()
+    else:
+        fig = px.bar(df, y=df[ordervalue_col],  labels={
+        'OrderValue' : ylabel2
+        })
+        fig.update_layout(yaxis = dict(tickformat='$,'), title_text = title)
+        fig.update_traces(marker_color='#08A05C')
+        fig.add_trace
+        fig.show()
+    
 def cohort_retention_chart(
     transaction_log, 
     datetime_col,  
@@ -293,7 +314,6 @@ def customer_type_revenue_mix(
     ob[datetime_col] = ob[datetime_col].astype('datetime64[ns]') # This line causes a SettingWithCopyWarning
     ob['OrderPeriod'] = ob[datetime_col].apply(lambda x: x.strftime('%Y-%m')) # This line causes a SettingWithCopyWarning
     ob.set_index(customerid_col, inplace=True)
-    ob.head()
     grouped2 = ob.groupby(['OrderPeriod'])
     cohorts2 = grouped2.agg({ordervalue_col:np.sum,
                         })
@@ -331,5 +351,72 @@ def customer_type_revenue_mix(
     # Labels and Legend
     plt.xticks(r, months, rotation=rotation)
     plt.ylabel('Percent of Monthly Revenue')
+    plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+    plt.show()
+
+def customer_type_count(
+    transaction_log,
+    datetime_col,
+    customerid_col,
+    figsize = (12,8),
+    rotation = 'vertical'
+):
+    # Identify a buyer's first transaction
+    transaction_log.sort_values(datetime_col)
+    transaction_log['NewBuyer'] = (~transaction_log[customerid_col].duplicated()).astype(int)
+
+    #Create an Initial Buyer DataFrame and Repeat Buyer DataFrame
+    nb = transaction_log.loc[transaction_log['NewBuyer'] == 1]
+    ob = transaction_log.loc[transaction_log['NewBuyer'] == 0]
+
+    #Format New/Repeat Buyer DataFrames correctly
+    nb[datetime_col] = nb[datetime_col].astype('datetime64[ns]') # This line causes a SettingWithCopyWarning
+    nb['OrderPeriod'] = nb[datetime_col].apply(lambda x: x.strftime('%Y-%m')) # This line causes a SettingWithCopyWarning
+    nb.set_index(datetime_col, inplace=True)
+    grouped = nb.groupby(['OrderPeriod'])
+    cohorts = grouped.agg({customerid_col:pd.Series.nunique
+                       })
+    cohorts.rename(columns={customerid_col: 'CustomerCount'}, inplace=True)
+
+    ob[datetime_col] = ob[datetime_col].astype('datetime64[ns]') # This line causes a SettingWithCopyWarning
+    ob['OrderPeriod'] = ob[datetime_col].apply(lambda x: x.strftime('%Y-%m')) # This line causes a SettingWithCopyWarning
+    ob.set_index(datetime_col, inplace=True)
+    grouped2 = ob.groupby(['OrderPeriod'])
+    cohorts2 = grouped2.agg({customerid_col:pd.Series.nunique
+                        })
+    cohorts2.rename(columns={customerid_col: 'CustomerCount'}, inplace=True)
+
+    # Format Axis Data for Plot
+    cohorts.reset_index(inplace = True)
+    cohorts.set_index('OrderPeriod', inplace=True)
+    months = cohorts.index.to_numpy()
+    r = []
+    i = -1
+    for x in months:
+        i+=1
+        r.append(i)
+
+    # Get Data for Plot
+    raw_data = {'InitialBuyers': cohorts['CustomerCount'], 'RepeatBuyers': cohorts2['CustomerCount']}
+    df = pd.DataFrame(raw_data)
+
+    # Get Totals
+    totals = [i+j for i,j in zip(df['InitialBuyers'], df['RepeatBuyers'])]
+    greenBars = [i / j * 100 for i,j in zip(df['InitialBuyers'], totals)]
+    orangeBars = [i / j * 100 for i,j in zip(df['RepeatBuyers'], totals)]
+
+    # Plot Dimensions
+    barWidth = 0.85
+    plt.rcParams["figure.figsize"] = figsize
+    
+    # Create Initial Buyer Bars
+    plt.bar(r, greenBars, color='#08A05C', edgecolor='white', width=barWidth, label = 'New Buyers')
+    
+    # Create Repeat Buyer Bars
+    plt.bar(r, orangeBars, bottom=greenBars, color='#f9bc86', edgecolor='white', width=barWidth, label = 'Repeat Buyers')
+    
+    # Labels and Legend
+    plt.xticks(r, months, rotation=rotation)
+    plt.ylabel('Count of Customers')
     plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
     plt.show()

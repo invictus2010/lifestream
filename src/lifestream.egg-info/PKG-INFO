@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lifestream
-Version: 0.0.10
+Version: 0.0.11
 Summary: The fastest way to make sense of a transaction log.
 Home-page: https://github.com/invictus2010/lifestream
 Author: Jeff Withington
@@ -12,7 +12,7 @@ Description: # Lifestream
         
         ## Installation
         
-        Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+        Use the package manager [pip](https://pip.pypa.io/en/stable/) to install lifestream.
         
         ```bash
         pip install lifestream
