@@ -106,7 +106,7 @@ def sales_chart(
 
     # Plotting a dual axist chart depending on the user's preference, else
     # plot revenue/sales per month.
-    if customer_count = True:
+    if customer_count == True:
         fig = make_subplots(specs=[[{"secondary_y": True}]])
         fig.add_trace(
         go.Scatter(
