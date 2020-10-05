@@ -128,8 +128,9 @@ def sales_chart(
         fig.update_yaxes(title_text=ylabel2, secondary_y=False)
         fig.show()
     else:
-        fig = px.bar(df, y=df[ordervalue_col],  labels={
-        'OrderValue' : ylabel2
+        fig = px.bar(df, x = df.index, y = df[ordervalue_col],  labels={
+        ordervalue_col : ylabel2,
+        'x': 'Month-Year'
         })
         fig.update_layout(yaxis = dict(tickformat='$,'), title_text = title)
         fig.update_traces(marker_color='#08A05C')
@@ -217,8 +218,7 @@ def new_customers_chart(
     customerid_col,
     title = 'New Buyers by Month',
     xlabel = 'Month of First Purchase',
-    ylabel = 'Number of New Buyers',
-    kind = 'bar'
+    ylabel = 'Number of New Buyers'
 ):
     """
     Creates a bar chart of new buyers by month. 
@@ -237,31 +237,31 @@ def new_customers_chart(
         the label for the x-axis of the plot.
     ylabel: string, optional
         the label for the y-axis of the plot.
-    kind: string, optional
-        the kind of plot desired. see the .plot method for pandas library for what's supported.
     -------
     axes: matplotlib.AxesSubplot
     """
 
-    transaction_log['OrderPeriod'] = transaction_log[datetime_col].apply(lambda x: x.strftime('%Y-%m'))
+    # Find which cohort a user belongs to. The cohort represents when they made their first purchase.
     transaction_log.set_index(customerid_col, inplace = True)
     transaction_log['CohortGroup'] = transaction_log.groupby(level=0)[datetime_col].min().apply(lambda x: x.strftime('%Y-%m'))
     transaction_log.reset_index(inplace = True)
+
+    # Count number of unique customers in each cohort.
     grouped = transaction_log.groupby(['CohortGroup'])
-    cohorts = grouped.agg({customerid_col: pd.Series.nunique,
-                       })
+    cohorts = grouped.agg({customerid_col: pd.Series.nunique})
+    
+    # Number of unique customer in each cohort represents the new buyers.
     cohorts.rename(columns={customerid_col: 'TotalUsers'}, inplace=True)
-    def cohort_period(df):
-        df['CohortPeriod'] = np.arange(len(df)) + 1
-        return df
-    cohorts = cohorts.groupby(level=0).apply(cohort_period)
     cohorts.reset_index(inplace=True)
-    cohorts.set_index(['CohortGroup', 'CohortPeriod'], inplace=True)
-    cohort_group_size = cohorts['TotalUsers'].groupby(level=0).first()
-    cohort_group_size.plot(kind = kind, figsize=(10,5))
-    plt.title(title)
-    plt.ylabel(ylabel)
-    plt.xlabel(xlabel)
+    cohorts.set_index(['CohortGroup'], inplace=True)
+
+    # Plot it 
+    fig = px.bar(cohorts, x = cohorts.index, y = 'TotalUsers', title = title, labels = {
+    'TotalUsers': ylabel,
+    'x': xlabel
+    })
+    fig.update_traces(marker_color='#08A05C')
+    fig.show()
 
 def customer_type_revenue_mix(
     transaction_log,
