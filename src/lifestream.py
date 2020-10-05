@@ -70,7 +70,7 @@ def sales_chart(
     ylabel2 = 'Sales ($) per Month'
 ):
     """
-    Creates a bar chart of monthly revenue. 
+    Creates a bar chart of monthly revenue with a line plot overlay of number of customers per month. 
     
     Parameters
     ----------
@@ -92,7 +92,7 @@ def sales_chart(
         the label for the bar plot of the revenue per month.
     
     -------
-    axes: matplotlib.AxesSubplot
+    axes: plotly.AxesSubplot
     """
 
     # Get time format correct of date column correct
@@ -101,8 +101,8 @@ def sales_chart(
     
     # Aggregate data on a monthly basis from transaction log. User user_id totals to create optional stacked 
     # chart in the futre
-    df = transaction_log.groupby(pd.Grouper(freq="M"))[ordervalue_col, customerid_col].agg({ordervalue_col: 'sum', 
-    customerid_col: 'count'})
+    df = transaction_log.groupby(pd.Grouper(freq="M"))[ordervalue_col, customerid_col].agg({ordervalue_col: np.sum, 
+    customerid_col: pd.Series.nunique})
 
     # Plotting a dual axist chart depending on the user's preference, else
     # plot revenue/sales per month.
@@ -361,6 +361,30 @@ def customer_type_count(
     figsize = (12,8),
     rotation = 'vertical'
 ):
+
+  """
+    Creates a stacked bar chart of percent of buyer types per month
+    Note: only a new buyer's first purchase counts towards new buyer. If
+    the customer repeats in the same month, subsequent transactions are counted towards repeat buyer.
+    
+    
+    Parameters
+    ----------
+    transaction_log: :obj: DataFrame
+        a Pandas DataFrame that contains your transaction log.
+    datetime_col: string
+        the column in transaction_log DataFrame that denotes the datetime of an order.
+    customerid_col: string
+        the column in transaction_log DataFrame that contains the unique customer_id.
+    ordervalue_col: string 
+        the column in transaction_log DataFrame that contains the total value of an order.
+    figsize: tuple, optional
+        the size of the chart.
+    rotation: string, optional
+        rotation for x-axis tick marks; may be 'horizontal' or 'vertical'
+    -------
+    axes: matplotlib.AxesSubplot
+    """
     # Identify a buyer's first transaction
     transaction_log.sort_values(datetime_col)
     transaction_log['NewBuyer'] = (~transaction_log[customerid_col].duplicated()).astype(int)

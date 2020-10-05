@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name = 'lifestream',
-    version = '0.0.12',
+    version = '0.0.13',
     description = 'The fastest way to make sense of a transaction log.',
     py_modules = ["lifestream"],
     package_dir = {'': 'src'},
