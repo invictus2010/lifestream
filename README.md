@@ -27,7 +27,7 @@ At a minimum, the transactional data you import should have the following:
 *Is your transactional data in another kind of format? See the `create_transaction_log` function below.*
 
 ## Usage
-This library is inspired by (many of the charts found in this PowerPoint file)[https://www.dropbox.com/s/x7b7e1kq7gk9id1/summarizing%20buyer%20behavior%20in%20excel%20clean.pptx?dl=0] created by (Prof Daniel McCarthy)[https://twitter.com/d_mccar/status/1299972436117643264]. 
+This library is inspired by [many of the charts found in this PowerPoint file](https://www.dropbox.com/s/x7b7e1kq7gk9id1/summarizing%20buyer%20behavior%20in%20excel%20clean.pptx?dl=0) created by [Prof Daniel McCarthy](https://twitter.com/d_mccar/status/1299972436117643264). 
 
 Below are some of the methods found within this library. 
 
