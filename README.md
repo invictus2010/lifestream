@@ -4,7 +4,7 @@ Lifestream is a Python library to make sense out of your transaction logs. Impor
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install lifestream.
 
 ```bash
 pip install lifestream
