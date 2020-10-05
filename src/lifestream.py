@@ -362,7 +362,7 @@ def customer_type_count(
     rotation = 'vertical'
 ):
 
-  """
+    """
     Creates a stacked bar chart of percent of buyer types per month
     Note: only a new buyer's first purchase counts towards new buyer. If
     the customer repeats in the same month, subsequent transactions are counted towards repeat buyer.
