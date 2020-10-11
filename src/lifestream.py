@@ -570,11 +570,8 @@ def c3_chart(transaction_log,
 
     fig.show()
 
-def c3_pivot(transaction_log,
-             customer_id,
-             datetime_col,
-             ordervalue_col
-):
+
+def c3_pivot(transaction_log, customer_id, datetime_col, ordervalue_col):
     # throw away all unwanted data
     transaction_log = transaction_log[[
         customer_id, datetime_col, ordervalue_col
