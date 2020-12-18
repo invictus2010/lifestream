@@ -541,7 +541,7 @@ def c3_chart(transaction_log,
     # merge computed data with original data
     merged = pd.merge(transaction_log, pivot1, on=customer_id, how='right')
     # turn the new dates and old dates into quaters for financial years
-    merged['order_date'] = pd.PeriodIndex(merged[datetime_col], freq='Q')
+    merged[datetime_col] = pd.PeriodIndex(merged[datetime_col], freq='Q')
     merged['birthday'] = pd.PeriodIndex(merged['birthday'], freq='Q')
 
     # make final pivot table to place the first dates quaters against the order dates quaters
@@ -593,7 +593,7 @@ def c3_pivot(transaction_log, customer_id, datetime_col, ordervalue_col):
     # merge computed data with original data
     merged = pd.merge(transaction_log, pivot1, on=customer_id, how='right')
     # turn the new dates and old dates into quaters for financial years
-    merged['order_date'] = pd.PeriodIndex(merged[datetime_col], freq='Q')
+    merged[datetime_col] = pd.PeriodIndex(merged[datetime_col], freq='Q')
     merged['birthday'] = pd.PeriodIndex(merged['birthday'], freq='Q')
 
     # make final pivot table to place the first dates quaters against the order dates quaters
