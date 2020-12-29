@@ -29,7 +29,6 @@ At a minimum, the transactional data you import should have the following:
 *Is your transactional data in another kind of format? See the `create_transaction_log` function below.*
 
 ## Usage
-This library is inspired by [many of the charts found in this PowerPoint file](https://www.dropbox.com/s/x7b7e1kq7gk9id1/summarizing%20buyer%20behavior%20in%20excel%20clean.pptx?dl=0) created by [Prof Daniel McCarthy](https://twitter.com/d_mccar/status/1299972436117643264). 
 
 Below are some of the methods found within this library. *Not all methods are in the readme, so open-up the lifestream.py file for some Easter eggs.*
 
@@ -112,6 +111,9 @@ lifestream.c3chart(transaction_log, customer_id, datetime_col, ordervalue_col, t
 * **title** *optional* represents the title of the chart.
 
 ![Image of C3 Chart](images/c3chart.png)
+
+## Credit
+This library is inspired by [many of the charts found in this PowerPoint file](https://www.dropbox.com/s/x7b7e1kq7gk9id1/summarizing%20buyer%20behavior%20in%20excel%20clean.pptx?dl=0) created by [Prof Daniel McCarthy](https://twitter.com/d_mccar/status/1299972436117643264). The work of [Greg Reda](http://www.gregreda.com/2015/08/23/cohort-analysis-with-python/) was also instrumental in the cohort retention chart.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
