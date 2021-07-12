@@ -102,7 +102,7 @@ lifestream.new_customers_chart(transaction_log, datetime_col, customerid_col, ti
 
 ```python
 
-lifestream.c3chart(transaction_log, customer_id, datetime_col, ordervalue_col, title="Total Quarterly Sales by Acquisition Cohort Over Time")
+lifestream.c3_chart(transaction_log, customer_id, datetime_col, ordervalue_col, title="Total Quarterly Sales by Acquisition Cohort Over Time")
 ```
 * **transaction_log** is a dataframe of your transactional data.
 * **customerid_col** represents the column of the dataframe which contains the unique user id associated with the transaction. 
