@@ -14,7 +14,7 @@ pip install lifestream
 ## Transactional Data 
 At a minimum, the transactional data you import should have the following: 
 
-* OrderID assoiated with transaction
+* OrderID associated with transaction
 * Unique user id associated with transaction
 * Date of transaction
 * Monetary value of transaction
